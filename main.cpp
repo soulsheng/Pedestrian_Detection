@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
 		//依次读取正样本图片，生成HOG描述子
 		for(int num=0; num<PosSamNO && getline(finPos,ImgName); num++)
 		{
-			cout<<"处理："<<ImgName<<endl;
+			cout<<" 处理： "<<ImgName<<endl;
 			//ImgName = "D:\\DataSet\\PersonFromVOC2012\\" + ImgName;//加上正样本的路径名
 			ImgName = "dataset/pos/" + ImgName;//加上正样本的路径名
 			Mat src = imread(ImgName);//读取图片
@@ -65,7 +65,7 @@ int main(int argc, char const *argv[])
 		//依次读取负样本图片，生成HOG描述子
 		for(int num=0; num<NegSamNO && getline(finNeg,ImgName); num++)
 		{
-			cout<<"处理："<<ImgName<<endl;
+			cout<<" 处理： "<<ImgName<<endl;
 			//ImgName = "E:\\运动目标检测\\INRIAPerson\\negphoto\\" + ImgName;//加上负样本的路径名
       ImgName = "dataset/neg/" + ImgName;//加上负样本的路径名
 			Mat src = imread(ImgName);//读取图片
@@ -89,7 +89,7 @@ int main(int argc, char const *argv[])
 			//依次读取HardExample负样本图片，生成HOG描述子
 			for(int num=0; num<HardExampleNO && getline(finHardExample,ImgName); num++)
 			{
-				cout<<"处理："<<ImgName<<endl;
+				cout<<" 处理： "<<ImgName<<endl;
 				//ImgName = "D:\\DataSet\\HardExample_2400PosINRIA_12000Neg\\" + ImgName;//加上HardExample负样本的路径名
         ImgName = "dataset/HardExample/" + ImgName;//加上HardExample负样本的路径名
 				Mat src = imread(ImgName);//读取图片
@@ -123,9 +123,9 @@ int main(int argc, char const *argv[])
 		CvTermCriteria criteria = cvTermCriteria(CV_TERMCRIT_ITER+CV_TERMCRIT_EPS, TermCriteriaCount, FLT_EPSILON);
 		//SVM参数：SVM类型为C_SVC；线性核函数；松弛因子C=0.01
 		CvSVMParams param(CvSVM::C_SVC, CvSVM::LINEAR, 0, 1, 0, 0.01, 0, 0, 0, criteria);
-		cout<<"开始训练SVM分类器"<<endl;
-		svm.train(sampleFeatureMat,sampleLabelMat, Mat(), Mat(), param);//训练分类器
-		cout<<"训练完成"<<endl;
+		cout<<" 开始训练SVM分类器 "<<endl;
+		svm.train(sampleFeatureMat,sampleLabelMat, Mat(), Mat(), param);/* 训练分类器 */
+		cout<<" 训练完成 "<<endl;
 		svm.save("SVM_HOG.xml");//将训练好的SVM模型保存为xml文件
 
 	}
@@ -142,7 +142,7 @@ int main(int argc, char const *argv[])
 	***************************************************************************************************/
 	DescriptorDim = svm.get_var_count();//特征向量的维数，即HOG描述子的维数
 	int supportVectorNum = svm.get_support_vector_count();//支持向量的个数
-	cout<<"支持向量个数："<<supportVectorNum<<endl;
+	cout<<" 支持向量个数： "<<supportVectorNum<<endl;
 
 	Mat alphaMat = Mat::zeros(1, supportVectorNum, CV_32FC1);//alpha向量，长度等于支持向量个数
 	Mat supportVectorMat = Mat::zeros(supportVectorNum, DescriptorDim, CV_32FC1);//支持向量矩阵
@@ -179,7 +179,7 @@ int main(int argc, char const *argv[])
 	}
 	//最后添加偏移量rho，得到检测子
 	myDetector.push_back(svm.get_rho());
-	cout<<"检测子维数："<<myDetector.size()<<endl;
+	cout<<" 检测子维数： "<<myDetector.size()<<endl;
 	//设置HOGDescriptor的检测子
 	HOGDescriptor myHOG;
 	myHOG.setSVMDetector(myDetector);
@@ -195,7 +195,7 @@ int main(int argc, char const *argv[])
   /**************读入图片进行HOG行人检测******************/
 	Mat src = imread(TestImageFileName);
 	vector<Rect> found, found_filtered;//矩形框数组
-	cout<<"进行多尺度HOG人体检测"<<endl;
+	cout<<" 进行多尺度HOG人体检测 "<<endl;
 	myHOG.detectMultiScale(src, found, 0, Size(8,8), Size(32,32), 1.05, 2);//对图片进行多尺度行人检测
 	 //src为输入待检测的图片；found为检测到目标区域列表；参数3为程序内部计算为行人目标的阈值，也就是检测到的特征到SVM分类超平面的距离;
    //参数4为滑动窗口每次移动的距离。它必须是块移动的整数倍；参数5为图像扩充的大小；参数6为比例系数，即测试图片每次尺寸缩放增加的比例；
@@ -212,7 +212,7 @@ int main(int argc, char const *argv[])
 		if( j == found.size())
 			found_filtered.push_back(r);
 	}
-  cout<<"找到的矩形框个数："<<found_filtered.size()<<endl;
+  cout<<" 找到的矩形框个数： "<<found_filtered.size()<<endl;
 
 	//画矩形框，因为hog检测出的矩形框比实际人体框要稍微大些,所以这里需要做一些调整
 	for(int i=0; i<found_filtered.size(); i++)

@@ -8,3 +8,10 @@ CMakeCache.txt
 Makefile
 Test1.jpg
 Test2.jpg
+*Debug
+*Release
+*x64
+*.opensdf
+*.sdf
+*.suo
+*bin
