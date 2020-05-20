@@ -43,7 +43,7 @@
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>D:\soft\opencv\opencv-248\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>D:\soft\opencv\opencv-248\opencv\build\include;..;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)bin\</OutDir>
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
     <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -14,7 +14,7 @@ using namespace cv;
 int main(int argc, char const *argv[])
 {
   //检测窗口(64,128),块尺寸(16,16),块步长(8,8),cell尺寸(8,8),直方图bin个数9
-	HOGDescriptor hog(Size(64,128),Size(16,16),Size(8,8),Size(8,8),9);//HOG检测器，用来计算HOG描述子的
+	HOGDescriptor hog(Size(HOG_WIDTH, HOG_HEIGHT), Size(24, 24), Size(8, 8), Size(8, 8), 9);//HOG检测器，用来计算HOG描述子的
 	int DescriptorDim;//HOG描述子的维数，由图片大小、检测窗口大小、块大小、细胞单元中直方图bin个数决定
 	MySVM svm;//SVM分类器
 
@@ -35,12 +35,13 @@ int main(int argc, char const *argv[])
 		{
 			cout<<" 处理： "<<ImgName<<endl;
 			//ImgName = "D:\\DataSet\\PersonFromVOC2012\\" + ImgName;//加上正样本的路径名
-			ImgName = "dataset/pos/" + ImgName;//加上正样本的路径名
+			ImgName = "../dataset/pos/" + ImgName;//加上正样本的路径名
 			Mat src = imread(ImgName);//读取图片
 			if(CENTRAL_CROP)
-        if(src.cols >= 96 && src.rows >= 160)
+			if(src.cols >= 96 && src.rows >= 160)
 				    src = src(Rect(16,16,64,128));//将96*160的INRIA正样本图片剪裁为64*128，即剪去上下左右各16个像素
-			//  resize(src,src,Size(64,128));
+			
+			resize(src, src, Size(HOG_WIDTH, HOG_HEIGHT));
 
 			vector<float> descriptors;//HOG描述子向量
 			hog.compute(src,descriptors,Size(8,8));//计算HOG描述子，检测窗口移动步长(8,8)
@@ -67,9 +68,9 @@ int main(int argc, char const *argv[])
 		{
 			cout<<" 处理： "<<ImgName<<endl;
 			//ImgName = "E:\\运动目标检测\\INRIAPerson\\negphoto\\" + ImgName;//加上负样本的路径名
-      ImgName = "dataset/neg/" + ImgName;//加上负样本的路径名
+			ImgName = "../dataset/neg/" + ImgName;//加上负样本的路径名
 			Mat src = imread(ImgName);//读取图片
-			//resize(src,img,Size(64,128));
+			resize(src, src, Size(HOG_WIDTH, HOG_HEIGHT));
 
 			vector<float> descriptors;//HOG描述子向量
 			hog.compute(src,descriptors,Size(8,8));//计算HOG描述子，检测窗口移动步长(8,8)
@@ -126,12 +127,12 @@ int main(int argc, char const *argv[])
 		cout<<" 开始训练SVM分类器 "<<endl;
 		svm.train(sampleFeatureMat,sampleLabelMat, Mat(), Mat(), param);/* 训练分类器 */
 		cout<<" 训练完成 "<<endl;
-		svm.save("SVM_HOG.xml");//将训练好的SVM模型保存为xml文件
+		svm.save(SVM_FILE);//将训练好的SVM模型保存为xml文件
 
 	}
 	else //若TRAIN为false，从XML文件读取训练好的分类器
 	{
-		svm.load("SVM_HOG.xml");//从XML文件读取训练好的SVM模型
+		svm.load(SVM_FILE);//从XML文件读取训练好的SVM模型
 	}
 
   /*************************************************************************************************
@@ -181,7 +182,7 @@ int main(int argc, char const *argv[])
 	myDetector.push_back(svm.get_rho());
 	cout<<" 检测子维数： "<<myDetector.size()<<endl;
 	//设置HOGDescriptor的检测子
-	HOGDescriptor myHOG;
+	HOGDescriptor myHOG(Size(HOG_WIDTH, HOG_HEIGHT), Size(24, 24), Size(8, 8), Size(8, 8), 9);
 	myHOG.setSVMDetector(myDetector);
 	//myHOG.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
 
