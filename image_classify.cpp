@@ -14,12 +14,13 @@ using namespace cv;
 
 #define	TEST_POS	1
 #if TEST_POS
-#define TEST_FILE_LIST	"../dataset/fileNamePosTest.txt"
-#define TEST_FILE_PATH	"../dataset/posTestAIZOO/"
+#define TEST_FILE_LIST	"../dataset/fileNamePosT2.txt"
+#define TEST_FILE_PATH	"../dataset/posT2/"
 #else
-#define TEST_FILE_LIST	"../dataset/fileNameNegTest.txt"
-#define TEST_FILE_PATH	"../dataset/NegTestAIZOO/"
+#define TEST_FILE_LIST	"../dataset/fileNameNegT2.txt"
+#define TEST_FILE_PATH	"../dataset/negT2/"
 #endif
+
 typedef std::vector<std::string> NameVec;
 
 int main(int argc, char const *argv[])
@@ -69,14 +70,14 @@ int main(int argc, char const *argv[])
 
 	}
 
-	for (int i = 0; i < 2; i++)
-	{
-		cout << endl << endl << "file list " << i << " (0-neg,1-pos), length = " << resultFileList[i].size() << endl << endl;
+	// predict error list to output 
+	NameVec* pErrVec = &resultFileList[0];
+	if (resultFileList[0].size() > resultFileList[1].size() )
+		pErrVec = &resultFileList[1];;
 
-		for (NameVec::iterator itr = resultFileList[i].begin(); itr != resultFileList[i].end(); itr++)
-			cout << *itr << "\t";
+	for (NameVec::iterator itr = pErrVec->begin(); itr != pErrVec->end(); itr++)
+		cout << *itr << "\t";
 
-	}
 
 	cout << endl << endl
 		<< "neg list size = " << resultFileList[0].size()

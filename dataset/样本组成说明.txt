@@ -1,0 +1,26 @@
+
+样本结构表
+      aizoo   wuhan   v3  v4  v6    all-mix
+neg   2907    1310    370 146 155   4888
+pos   1836    718     22  92  126   2794
+
+aizoo: AIZOO开源人脸口罩检测数据，https://github.com/AIZOOTech/FaceMaskDetection
+wuhan: 武汉大学开源人脸库，https://github.com/X-zhangyang/Real-World-Masked-Face-Dataset 
+
+以下DIY样本（注意保密）
+te-v3: 补充暗环境样本
+te-v4: 补充小角度人脸
+te-v6: 补充大角度人脸
+
+------------------------------------------------------
+train v1
+
+error rate 
+     tr-1         te-2       te-v1      te-v6
+1a   141+405=7.1  23+114=10  7+44=5.4  0+1=0% 
+
+------------------------------------------------------------
+    tr-1  te-1  te-2  te-3 te-4  te-v1 te-v2 te-v3 te-v4 te-v5 te-v6 te-v7
+neg 4888  722    722   1311 1310  434  224   781   613   382   384           
+pos 2794  622    622   713   718  511  193   365   457   448   369    
+tot 7682  1344   1344  2024 2028  945  417   1146  1070  830   753   
