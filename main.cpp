@@ -53,18 +53,11 @@ int main(int argc, char const *argv[])
 	Mat sampleFeatureMat;//所有训练样本的特征向量组成的矩阵，行数等于所有样本的个数，列数等于HOG描述子维数
 	Mat sampleLabelMat;//训练样本的类别向量，行数等于所有样本的个数，列数等于1；1表示有人，-1表示无人
 
-	Mat src = imread(string(TRAIN_FILE_PATH_NEG) + fileList[0][0]);//读取图片
-	if (src.empty())
-	{
-		cout << "sample image is empty" << endl;
-		return -1;
-	}
-
-	resize(src, src, Size(HOG_WIDTH, HOG_HEIGHT));
+	Mat src(HOG_WIDTH, HOG_HEIGHT, CV_8UC3);
 	vector<float> descriptors;//HOG描述子向量
 	hog.compute(src, descriptors, Size(8, 8));//计算HOG描述子，检测窗口移动步长(8,8)
-
 	DescriptorDim = descriptors.size();//HOG描述子的维数
+
 	//初始化所有训练样本的特征向量组成的矩阵，行数等于所有样本的个数，列数等于HOG描述子维数sampleFeatureMat
 	sampleFeatureMat = Mat::zeros(nCountSamples, DescriptorDim, CV_32FC1);
 	//初始化训练样本的类别向量，行数等于所有样本的个数，列数等于1；1表示有人，0表示无人
@@ -90,7 +83,7 @@ int main(int argc, char const *argv[])
 			}
 
 			ImgName = pathImg + ImgName;//加上正样本的路径名
-			Mat src = imread(ImgName);//读取图片
+			Mat src = imread(ImgName, COLOR_GRAY);//读取图片，转为灰度图
 
 			if (src.empty())
 			{
