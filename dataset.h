@@ -2,7 +2,7 @@
 #define DATASET_H
 
 
-#define CENTRAL_CROP false   //true:训练时，对96*160的INRIA正样本图片剪裁出中间的64*128大小人体
+#define CENTRAL_CROP false   //true:训练时，对正样本图片剪裁
 
 #define HardExampleListFile "HardExample_FromINRIA_NegList.txt"
 //HardExample：负样本个数。如果HardExampleNO大于0，表示处理完初始负样本集后，继续处理HardExample负样本集。

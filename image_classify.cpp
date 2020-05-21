@@ -6,34 +6,38 @@
 #include <opencv2/objdetect/objdetect.hpp>
 #include <opencv2/ml/ml.hpp>
 #include "dataset.h" // 定义一些数据
-#include "my_svm.h" // MySVM继承自CvSVM的类
-#include "common.h"
-#include "time.h"
+#include <time.h>
 
 using namespace std;
 using namespace cv;
+
+typedef std::vector<std::string> NameVec;
 
 //#define TEST_GROUP	"V6" // Tr1, T2, V1, V6
 
 
 int main(int argc, char const *argv[])
 {
-	MySVM svm;//SVM分类器
+	CvSVM svm;//SVM分类器
 	svm.load(SVM_FILE);//从XML文件读取训练好的SVM模型
 	int DescriptorDim = svm.get_var_count();//特征向量的维数，即HOG描述子的维数
 
 	string ImgName;//图片名
 	NameVec fileLists[2];
 
-	string TEST_GROUP(argv[1]);
-	string fileListName = string("../dataset/fileNameNeg") + TEST_GROUP + ".txt";
-	ifstream ifList(fileListName);//测试样本图片的文件名列表
+	string TEST_GROUP("T2");
+	if (argc >1)
+		TEST_GROUP = argv[1];
+
+	string fileListName[2];
+	fileListName[0] = string("../dataset/fileNameNeg") + TEST_GROUP + ".txt";
+	ifstream ifList(fileListName[0]);//测试样本图片的文件名列表
 	while (getline(ifList, ImgName))
 		fileLists[0].push_back(ImgName);
 	ifList.close();
 
-	fileListName = string("../dataset/fileNamePos") + TEST_GROUP + ".txt";
-	ifList.open(fileListName);//测试样本图片的文件名列表
+	fileListName[1] = string("../dataset/fileNamePos") + TEST_GROUP + ".txt";
+	ifList.open(fileListName[1]);//测试样本图片的文件名列表
 	while (getline(ifList, ImgName))
 		fileLists[1].push_back(ImgName);
 
@@ -50,6 +54,8 @@ int main(int argc, char const *argv[])
 
 		NameVec	resultFileList[2]; // 0-neg, 1-pos
 		long timeStep[4] = { 0 }; // 0-read, 1-resize, 2-hog, 3-pred
+
+		cout << endl << endl << "begin to predict image files in " << fileListName[ii] << endl;
 
 		for (int num = 0; num < fileList.size(); num++)
 		{
@@ -97,15 +103,17 @@ int main(int argc, char const *argv[])
 
 		}
 
-		cout << "all frame ms time = " << clock() - tBegAll << endl;
+		cout << endl << "succeed to predict " << fileList.size() << " frames, total ms time = " << clock() - tBegAll << endl;
 
 		// predict error list to output 
+		cout << " error list: " << endl;
+
 		NameVec* pErrVec = &resultFileList[0];
 		if (resultFileList[0].size() > resultFileList[1].size())
 			pErrVec = &resultFileList[1];;
 
 		for (NameVec::iterator itr = pErrVec->begin(); itr != pErrVec->end(); itr++)
-			cout << *itr << "\t";
+			cout << *itr << endl;
 
 
 		cout << endl << endl
