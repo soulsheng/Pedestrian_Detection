@@ -50,6 +50,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\soft\opencv\opencv-248\opencv\build\include;..;$(IncludePath)</IncludePath>
     <LibraryPath>D:\soft\opencv\opencv-248\opencv\build\x86\vc12\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -10,6 +10,8 @@
 using namespace cv;
 using namespace std;
 
+typedef std::vector<std::string> NameVec;
+
 int parseSvmXML(MySVM& svm, std::vector<float>& myDetector);
 
 

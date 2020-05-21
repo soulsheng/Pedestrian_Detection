@@ -22,7 +22,6 @@ using namespace cv;
 #define TEST_FILE_PATH	"../dataset/negT2/"
 #endif
 
-typedef std::vector<std::string> NameVec;
 
 int main(int argc, char const *argv[])
 {
@@ -76,7 +75,7 @@ int main(int argc, char const *argv[])
 		int result = svm.predict(testFeatureMat);//返回类标
 		timeStep[3] += clock() - tBeg;
 
-		cout << "1 frame ms time = " << clock() - tBegFrameAll << endl;
+		//cout << "1 frame ms time = " << clock() - tBegFrameAll << endl;
 
 		//cout << "分类结果：" << result << endl;
 		cout << ".";
