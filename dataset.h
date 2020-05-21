@@ -9,12 +9,14 @@
 //不使用HardExample时必须设置为0，因为特征向量矩阵和特征类别矩阵的维数初始化时用到这个值
 #define HardExampleNO 0
 
-#define TermCriteriaCount 50000  //迭代终止条件，当迭代满50000次或误差小于FLT_EPSILON时停止迭代
+#define TermCriteriaCount 1100  //迭代终止条件，当迭代满50000次或误差小于FLT_EPSILON时停止迭代
+#define TermCriteriaEps		1e-3
 
 #define SVM_FILE	"../SVM_HOG.xml"
 #define	HOG_WIDTH	96
 #define HOG_HEIGHT	96
 
 #define COLOR_GRAY		0	// 1-COLOR, 0-GRAY
+#define AUTO_TRAIN		1
 
 #endif

@@ -13,7 +13,7 @@
 using namespace std;
 using namespace cv;
 
-#define TEST_GROUP	"V1" // Tr1, T2, V1, V6
+//#define TEST_GROUP	"V6" // Tr1, T2, V1, V6
 
 
 int main(int argc, char const *argv[])
@@ -25,6 +25,7 @@ int main(int argc, char const *argv[])
 	string ImgName;//图片名
 	NameVec fileLists[2];
 
+	string TEST_GROUP(argv[1]);
 	string fileListName = string("../dataset/fileNameNeg") + TEST_GROUP + ".txt";
 	ifstream ifList(fileListName);//测试样本图片的文件名列表
 	while (getline(ifList, ImgName))

@@ -57,6 +57,7 @@ int main(int argc, char const *argv[])
 	vector<float> descriptors;//HOG描述子向量
 	hog.compute(src, descriptors, Size(8, 8));//计算HOG描述子，检测窗口移动步长(8,8)
 	DescriptorDim = descriptors.size();//HOG描述子的维数
+	cout << " 描述子维数： " << DescriptorDim << endl; // 8100 for img size(96,96)
 
 	//初始化所有训练样本的特征向量组成的矩阵，行数等于所有样本的个数，列数等于HOG描述子维数sampleFeatureMat
 	sampleFeatureMat = Mat::zeros(nCountSamples, DescriptorDim, CV_32FC1);
@@ -118,11 +119,16 @@ int main(int argc, char const *argv[])
 
 		//训练SVM分类器
 		//迭代终止条件，当迭代满1000次或误差小于FLT_EPSILON时停止迭代
-		CvTermCriteria criteria = cvTermCriteria(CV_TERMCRIT_ITER+CV_TERMCRIT_EPS, TermCriteriaCount, FLT_EPSILON);
+		CvTermCriteria criteria = cvTermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, TermCriteriaCount, TermCriteriaEps);
 		//SVM参数：SVM类型为C_SVC；线性核函数；松弛因子C=0.01
 		CvSVMParams param(CvSVM::C_SVC, CvSVM::LINEAR, 0, 1, 0, 0.01, 0, 0, 0, criteria);
 		cout<<" 开始训练SVM分类器 "<<endl;
+
+#if AUTO_TRAIN
+		svm.train_auto(sampleFeatureMat, sampleLabelMat, Mat(), Mat(), param);
+#else
 		svm.train(sampleFeatureMat,sampleLabelMat, Mat(), Mat(), param);/* 训练分类器 */
+#endif
 
 		cout << "train ms time = " << clock() - tBeg << endl;
 

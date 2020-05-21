@@ -13,6 +13,54 @@ te-v4: 补充小角度人脸
 te-v6: 补充大角度人脸
 
 ------------------------------------------------------
+train v4
+svm.train ->  train_auto
+4a same param, too long time (1.5min -> >1h ), give up 
+4b iter 5w->1100, eps=e-7->-3,too long time (9.18 - 9.48 0.5h ), give up ?
+4c k 10 -> 20
+4d b false -> true
+
+error rate 
+     tr-1         te-2       te-v1      te-v6
+4a    
+4b   149+397=7.1  25+115=10  24+52=8.0  0+2=0% ? 
+
+------------------------------------------------------
+train v3
+CvTermCriteria 
+3a count, 5w->unlimit, not change
+3b eps, e-7 ->-3 , not change
+3c eps, e-7 ->-5 , not change 
+3d count, 5w->1000, few better? yes, 52s, >
+1.1(52), 1.3(62), 1.5(69), 1.6(71), 1.7(74), 1.8(74), 1.9(76), >2(78)
+3e count, 5w->5000, few better? same, 78S
+3f count, 5w->100, few better? worse, 5s 
+3g count, 5w->500, few better? worse, 24s
+3h count, 5w->2000, few better? same, 78S
+3i count, 5w->1500, few better? same, 69S
+3j count, 5w->1300, few better? same
+3k count, 5w->1100, few better? better than d, best 
+3l count, 5w->900, few better? same as d
+
+3m count=1100,eps=e-7 ->-3 few better? same as k, 52s 
+
+error rate 
+     tr-1         te-2       te-v1      te-v6
+3a   169+451=8   26+122=11  21+68=9.4  0+7=1% 
+3b   170+451=8   26+122=11  21+68=9.4  0+7=1%   
+3c   169+451=8   26+122=11  21+68=9.4  0+7=1% 
+3d   166+323=6.4 31+106=10  41+46=9.2  0+1=0%  
+3e   169+451=8   26+122=11  21+68=9.4  0+7=1%
+3f   1894+567=32 275+131=30  178+131=33 159+60=29% 
+3g   541+336=11 71+103=13  116+19=14  70+0=9.3% 
+3h   167+451=8   26+124=11  21+69=9.4  0+7=1% 
+3i   167+451=8   26+124=11  21+69=9.4  0+7=1% 
+3j   145+445=7.7  27+131=12  30+55=9.0  0+3=0% 
+3k   149+397=7.1  25+115=10  24+52=8.0  0+2=0% 
+3l   123+312=5.7 34+102=10  33+59=9.7  0+0=0%  ?
+3m   149+397=7.1  25+115=10  24+52=8.0  0+2=0% 
+
+------------------------------------------------------
 train v2
 image rgb->gray, acc worse 
 
@@ -32,3 +80,7 @@ error rate
 neg 4888  722    722   1311 1310  434  224   781   613   382   384           
 pos 2794  622    622   713   718  511  193   365   457   448   369    
 tot 7682  1344   1344  2024 2028  945  417   1146  1070  830   753   
+
+ref error rate from object-detector(git) 
+     tr-1       te-2       te-v1      te-v2     te-v3     te-v4     te-v5  te-v6
+6a   70+106=3.7 31+73=7.7  15+47=6.4  20+11=7.4 8+23=2.7  5+18=2.1  0+0=0% 0+0=0%  
