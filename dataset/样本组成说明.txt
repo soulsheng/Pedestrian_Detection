@@ -15,7 +15,11 @@ te-v6: ²¹³ä´ó½Ç¶ÈÈËÁ³
 ------------------------------------------------------
 train v6
 more sample - dark glass
-6a 4g2(1w&e-3&96) + negV7(35) + posV7(41) , 28 min(10.42-11.10) ?
+6a 4g2(1w&e-3&96) + negV7(35) + posV7(41) , 30 min 
+
+error rate 
+     tr-1         te-2       te-v1      te-v6
+6a   78+152=3   31+85=8.6  28+47=7.9  0+0=0%  
 
 ------------------------------------------------------
 train v5
@@ -31,7 +35,7 @@ error rate
 5c  12+54=0.7  40+91=9.7  30+57=9.2  4+2=0.8  nearly same as b 
 ------------------------------------------------------
 train v4
-svm.train ->  train_auto, better than v3
+svm.train ->  train_auto
 4a same param, too long time (1.5min -> >1h ), give up 
 4b iter 5w->1100, eps=e-7->-3,too long time (9.18 - 9.48 0.5h ), give up ?!
 4c k 10 -> 5, b false -> true,too long time (11. - 11.15 15min ), give up ? no, k=5 is ok!
