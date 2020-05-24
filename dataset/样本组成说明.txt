@@ -13,17 +13,48 @@ te-v4: ²¹³äĞ¡½Ç¶ÈÈËÁ³
 te-v6: ²¹³ä´ó½Ç¶ÈÈËÁ³
 
 ------------------------------------------------------
+train v6
+more sample - dark glass
+6a 4g2(1w&e-3&96) + negV7(35) + posV7(41) , 28 min(10.42-11.10) ?
+
+------------------------------------------------------
+train v5
+resize 
+5a 5w&e-7, 96->160 , >7h (8.30- 15.30), too long time , give up
+5b 5k&e-3 & 96->128 -50min1, train test better, but val test worse
+5c 5k & 128 & e-3->5 -50min1, e-3 same as e-5
+
+error rate 
+     tr-1         te-2       te-v1      te-v6
+5a
+5b  10+41=0.7  40+91=9.7  30+57=9.2  4+2=0.8  5k 
+5c  12+54=0.7  40+91=9.7  30+57=9.2  4+2=0.8  nearly same as b 
+------------------------------------------------------
 train v4
-svm.train ->  train_auto
+svm.train ->  train_auto, better than v3
 4a same param, too long time (1.5min -> >1h ), give up 
-4b iter 5w->1100, eps=e-7->-3,too long time (9.18 - 9.48 0.5h ), give up ?
-4c k 10 -> 20
-4d b false -> true
+4b iter 5w->1100, eps=e-7->-3,too long time (9.18 - 9.48 0.5h ), give up ?!
+4c k 10 -> 5, b false -> true,too long time (11. - 11.15 15min ), give up ? no, k=5 is ok!
+4d k 5 -> 10, b false -> true,1h
+4e k 10 -> 5, eps=e-3 ->-7, 16min 
+4f k=5, eps=e-3, count=1100->2000, 20min , better 
+4g k=5, eps=e-3, count=2000->5000-25min1,  1w-28min2, 5w-34min3, better 5k ok
+4h k=5, count=5000,eps=e-3->7, 5k-24min1, 5w-34min2
+
 
 error rate 
      tr-1         te-2       te-v1      te-v6
 4a    
-4b   149+397=7.1  25+115=10  24+52=8.0  0+2=0% ? 
+4b   
+4c  164+283=5.8  40+115=12  34+80=12  18+34=7% 
+4d  164+283=5.8  40+115=12  34+80=12  18+34=7% 
+4e  164+283=5.8  40+115=12  34+80=12  18+34=7% 
+4f  53+129=2.4  30+88=8.8  34+52=9.1  2+0=0% 
+4g1 75+148=2.9  30+80=8.2  30+45=7.9  0+0=0%  5k 
+4g2 75+150=2.9  29+79=8.0  29+47=8.0  0+0=0%  1w 
+4g3 75+149=2.9  27+81=8.0  29+48=8.0  0+0=0%  5w
+4h1 75+148=2.9  30+80=8.2  30+45=7.9  0+0=0%  same as 4g1
+4h2 75+149=2.9  27+80=8.0  29+48=8.0  0+0=0%  
 
 ------------------------------------------------------
 train v3

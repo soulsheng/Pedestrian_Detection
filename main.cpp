@@ -125,7 +125,15 @@ int main(int argc, char const *argv[])
 		cout<<" 开始训练SVM分类器 "<<endl;
 
 #if AUTO_TRAIN
-		svm.train_auto(sampleFeatureMat, sampleLabelMat, Mat(), Mat(), param);
+		svm.train_auto(sampleFeatureMat, sampleLabelMat, Mat(), Mat(), param,
+			5,
+			CvSVM::get_default_grid(CvSVM::C),
+			CvSVM::get_default_grid(CvSVM::GAMMA),
+			CvSVM::get_default_grid(CvSVM::P),
+			CvSVM::get_default_grid(CvSVM::NU),
+			CvSVM::get_default_grid(CvSVM::COEF),
+			CvSVM::get_default_grid(CvSVM::DEGREE),
+			true);
 #else
 		svm.train(sampleFeatureMat,sampleLabelMat, Mat(), Mat(), param);/* 训练分类器 */
 #endif
