@@ -74,6 +74,11 @@ int main(int argc, char const *argv[])
 			testImg = imread(ImgName, COLOR_GRAY);
 			timeStep[0] += clock() - tBeg;
 
+			if (testImg.empty())
+			{
+				cout << "image not found - " << ImgName << endl;
+				continue;
+			}
 			tBeg = clock();
 			resize(testImg, testImg, Size(HOG_WIDTH, HOG_HEIGHT));
 			timeStep[1] += clock() - tBeg;
@@ -96,11 +101,19 @@ int main(int argc, char const *argv[])
 			//cout << "分类结果：" << result << endl;
 			cout << ".";
 
+			string pathImgOut;
 			if (1 == result)
+			{
 				resultFileList[1].push_back(fileList[num]);
-			else
-				resultFileList[0].push_back(fileList[num]);
+				pathImgOut = pathImg + "/pos/";
 
+			}
+			else
+			{
+				resultFileList[0].push_back(fileList[num]);
+				pathImgOut = pathImg + "/neg/";
+			}
+			imwrite(pathImgOut + fileList[num], testImg);
 		}
 
 		cout << endl << "succeed to predict " << fileList.size() << " frames, total ms time = " << clock() - tBegAll << endl;

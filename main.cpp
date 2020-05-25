@@ -20,15 +20,23 @@ using namespace cv;
 
 int main(int argc, char const *argv[])
 {
+	string TEST_GROUP("Tr1");
+	if (argc >1)
+		TEST_GROUP = argv[1];
+
   //检测窗口(64,128),块尺寸(16,16),块步长(8,8),cell尺寸(8,8),直方图bin个数9
 	HOGDescriptor hog(Size(HOG_WIDTH, HOG_HEIGHT), Size(24, 24), Size(8, 8), Size(8, 8), 9);//HOG检测器，用来计算HOG描述子的
 	int DescriptorDim;//HOG描述子的维数，由图片大小、检测窗口大小、块大小、细胞单元中直方图bin个数决定
 	MySVM svm;//SVM分类器
 
+	string fileListName[2];
+	fileListName[0] = string("../dataset/fileNameNeg") + TEST_GROUP + ".txt";
+	fileListName[1] = string("../dataset/fileNamePos") + TEST_GROUP + ".txt";
+
 	string ImgName;//图片名(绝对路径)
-	ifstream finPos(TRAIN_FILE_LIST_POS);//正样本图片的文件名列表
+	ifstream finPos(fileListName[1]);//正样本图片的文件名列表
 	//ifstream finPos("PersonFromVOC2012List.txt");//正样本图片的文件名列表
-	ifstream finNeg(TRAIN_FILE_LIST_NEG);//负样本图片的文件名列表
+	ifstream finNeg(fileListName[0]);//负样本图片的文件名列表
 	ifstream finHardExample(HardExampleListFile);//HardExample负样本的文件名列表
 
 

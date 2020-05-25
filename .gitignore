@@ -15,4 +15,4 @@ Test2.jpg
 *.sdf
 *.suo
 *bin
-/*.xml
+*xml

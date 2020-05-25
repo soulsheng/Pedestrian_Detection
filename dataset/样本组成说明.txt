@@ -13,13 +13,33 @@ te-v4: 补充小角度人脸
 te-v6: 补充大角度人脸
 
 ------------------------------------------------------
+train v8
+more sample - cloth mask, not better ?
+8a 4g2(1w&e-3&96) + negV8(x) + posV8(x) , 43 min (e5cpu)? 
+
+error rate 
+     tr-1         te-2       te-v1      te-v6
+8a   75+150=2.9  29+79=8.0  29+47=8.0  0+0=0% ?  
+
+------------------------------------------------------
+train v7
+more sample - smile, not better ?
+7a 4g2(1w&e-3&96) + negV8(x) + posV8(x) , 43 min (e5cpu)? 
+
+error rate 
+     tr-1         te-2       te-v1      te-v6
+7a   75+150=2.9  29+79=8.0  29+47=8.0  0+0=0% ?  
+
+------------------------------------------------------
 train v6
-more sample - dark glass
-6a 4g2(1w&e-3&96) + negV7(35) + posV7(41) , 30 min 
+more sample - dark glass, not better 
+6a 4g2(1w&e-3&96) + negV7(35) + posV7(41) , 30 min (i5cpu)
+6b revet to 4g2(1w&e-3&96) , 43 min(e5cpu)
 
 error rate 
      tr-1         te-2       te-v1      te-v6
 6a   78+152=3   31+85=8.6  28+47=7.9  0+0=0%  
+6b   75+150=2.9  29+79=8.0  29+47=8.0  0+0=0% 
 
 ------------------------------------------------------
 train v5
