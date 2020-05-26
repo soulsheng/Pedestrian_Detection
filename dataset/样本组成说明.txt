@@ -12,28 +12,23 @@ te-v3: 补充暗环境样本
 te-v4: 补充小角度人脸
 te-v6: 补充大角度人脸
 
-------------------------------------------------------
-train v8
-more sample - cloth mask, not better ?
-8a 4g2(1w&e-3&96) + negV8(x) + posV8(x) , 43 min (e5cpu)? 
-
-error rate 
-     tr-1         te-2       te-v1      te-v6
-8a   75+150=2.9  29+79=8.0  29+47=8.0  0+0=0% ?  
 
 ------------------------------------------------------
 train v7
-more sample - smile, not better ?
-7a 4g2(1w&e-3&96) + negV8(x) + posV8(x) , 43 min (e5cpu)? 
+more sample - smile or cloth/pm25 mask, train set err=0, but val not better ?
+7a 4g2(1w&e-3&96) + negV8(40), 28 min (i7cpu)
+7b 7a + posV8(73), 30 min (i7cpu)
+7c 7a + NoGlass
 
 error rate 
      tr-1         te-2       te-v1      te-v6
-7a   75+150=2.9  29+79=8.0  29+47=8.0  0+0=0% ?  
+7a   72+158=3.0  30+83=8.4  20+51=7.5  0+0=0%  
+7b   0+0=0      50+76=9.4   20+51=7.5?  0+0=0%  ?
 
 ------------------------------------------------------
 train v6
 more sample - dark glass, not better 
-6a 4g2(1w&e-3&96) + negV7(35) + posV7(41) , 30 min (i5cpu)
+6a 4g2(1w&e-3&96) + negV7(35) + posV7(41) , 30 min (i7cpu)
 6b revet to 4g2(1w&e-3&96) , 43 min(e5cpu)
 
 error rate 
@@ -43,7 +38,7 @@ error rate
 
 ------------------------------------------------------
 train v5
-resize 
+resize, not better
 5a 5w&e-7, 96->160 , >7h (8.30- 15.30), too long time , give up
 5b 5k&e-3 & 96->128 -50min1, train test better, but val test worse
 5c 5k & 128 & e-3->5 -50min1, e-3 same as e-5

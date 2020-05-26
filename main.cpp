@@ -20,18 +20,18 @@ using namespace cv;
 
 int main(int argc, char const *argv[])
 {
-	string TEST_GROUP("Tr1");
+	string TRAIN_GROUP("1");
 	if (argc >1)
-		TEST_GROUP = argv[1];
+		TRAIN_GROUP = argv[1];
 
   //检测窗口(64,128),块尺寸(16,16),块步长(8,8),cell尺寸(8,8),直方图bin个数9
 	HOGDescriptor hog(Size(HOG_WIDTH, HOG_HEIGHT), Size(24, 24), Size(8, 8), Size(8, 8), 9);//HOG检测器，用来计算HOG描述子的
 	int DescriptorDim;//HOG描述子的维数，由图片大小、检测窗口大小、块大小、细胞单元中直方图bin个数决定
 	MySVM svm;//SVM分类器
 
-	string fileListName[2];
-	fileListName[0] = string("../dataset/fileNameNeg") + TEST_GROUP + ".txt";
-	fileListName[1] = string("../dataset/fileNamePos") + TEST_GROUP + ".txt";
+	string fileListName[3];
+	fileListName[0] = string("../dataset/fileNameNegTr") + TRAIN_GROUP + ".txt";
+	fileListName[1] = string("../dataset/fileNamePosTr") + TRAIN_GROUP + ".txt";
 
 	string ImgName;//图片名(绝对路径)
 	ifstream finPos(fileListName[1]);//正样本图片的文件名列表
@@ -76,20 +76,22 @@ int main(int argc, char const *argv[])
 	int nOffset = 0;
 	for (int i = 0; i < 3; i++)
 	{
-		
+		string pathImg = string("../dataset/negTr") + TRAIN_GROUP + "/";
+
+		float valLabel = -1;
+		if (i == 1)
+		{
+			pathImg = string("../dataset/posTr") + TRAIN_GROUP + "/";;
+			valLabel = 1;
+		}
+
+		cout << "path image is: " << pathImg << endl;
+
 		//依次读取正/负样本图片，生成HOG描述子
 		for (int num = 0; num<fileList[i].size(); num++)
 		{
 			ImgName = fileList[i][num];
 			// cout<<" 处理： "<<ImgName<<endl;
-			string pathImg = TRAIN_FILE_PATH_NEG;
-
-			float valLabel = -1;
-			if (i == 1)
-			{
-				pathImg = TRAIN_FILE_PATH_POS;
-				valLabel = 1;
-			}
 
 			ImgName = pathImg + ImgName;//加上正样本的路径名
 			Mat src = imread(ImgName, COLOR_GRAY);//读取图片，转为灰度图
@@ -110,8 +112,8 @@ int main(int argc, char const *argv[])
 			//cout<<"描述子维数："<<descriptors.size()<<endl;
 
 			//将计算好的HOG描述子复制到样本特征矩阵sampleFeatureMat
-			for(int i=0; i<DescriptorDim; i++)
-				sampleFeatureMat.at<float>(num+nOffset,i) = descriptors[i];//第num个样本的特征向量中的第i个元素
+			for (int j = 0; j<DescriptorDim; j++)
+				sampleFeatureMat.at<float>(num + nOffset, j) = descriptors[j];//第num个样本的特征向量中的第j个元素
 			
 			sampleLabelMat.at<float>(num+nOffset,0) = valLabel;//正样本类别为1，负样本类别为-1
 
@@ -119,6 +121,7 @@ int main(int argc, char const *argv[])
 
 		}
 		nOffset += fileList[i].size();
+		cout << fileListName[i] << " file count = " << fileList[i].size() << endl;
 	}
 
 		cout << "hog ms time = " << clock() - tBeg << endl;

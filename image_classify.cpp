@@ -25,9 +25,13 @@ int main(int argc, char const *argv[])
 	string ImgName;//图片名
 	NameVec fileLists[2];
 
-	string TEST_GROUP("T2");
+	string TRAIN_GROUP("3m");
 	if (argc >1)
-		TEST_GROUP = argv[1];
+		TRAIN_GROUP = argv[1];
+
+	string TEST_GROUP("T2");
+	if (argc >2)
+		TEST_GROUP = argv[2];
 
 	string fileListName[2];
 	fileListName[0] = string("../dataset/fileNameNeg") + TEST_GROUP + ".txt";
@@ -41,7 +45,11 @@ int main(int argc, char const *argv[])
 	while (getline(ifList, ImgName))
 		fileLists[1].push_back(ImgName);
 
-
+	if (fileLists[0].empty() || fileLists[1].empty())
+	{
+		cout << "file list is empty!" << fileListName[0] << "," << fileListName[0] << endl;
+		return -1;
+	}
 	Mat testImg;
 	vector<float> descriptor;
 	HOGDescriptor hog(Size(HOG_WIDTH, HOG_HEIGHT), Size(24, 24), Size(8, 8), Size(8, 8), 9);//HOG检测器，用来计算HOG描述子的
@@ -105,13 +113,13 @@ int main(int argc, char const *argv[])
 			if (1 == result)
 			{
 				resultFileList[1].push_back(fileList[num]);
-				pathImgOut = pathImg + "/pos/";
+				pathImgOut = pathImg + TRAIN_GROUP + "/pos/";
 
 			}
 			else
 			{
 				resultFileList[0].push_back(fileList[num]);
-				pathImgOut = pathImg + "/neg/";
+				pathImgOut = pathImg + TRAIN_GROUP + "/neg/";
 			}
 			imwrite(pathImgOut + fileList[num], testImg);
 		}
