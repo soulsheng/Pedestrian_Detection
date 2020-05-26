@@ -15,7 +15,7 @@ te-v6: ≤π≥‰¥ÛΩ«∂»»À¡≥
 
 ------------------------------------------------------
 train v7
-more sample - smile or cloth/pm25 mask, train set err=0, but val not better ?
+more sample - smile or cloth/pm25 mask, better-7e
 7a 4g2(1w&e-3&96) + negV8(40), 28 min (i7cpu)
 7b 7a + posV8(73,1black+2pm25+3child), 30 min (i7cpu)
 7c 7b + posV8(227,10caton+11catonNoG), 50 min (e5cpu)
@@ -27,7 +27,12 @@ more sample - smile or cloth/pm25 mask, train set err=0, but val not better ?
 error rate 
      tr-1         te-2       te-v1      te-v6
 7a   72+158=3.0  30+83=8.4  20+51=7.5  0+0=0%  
-7b   0+0=0      50+76=9.4   20+51=7.5?  0+0=0%  ?
+7b   0+0=0      50+76=9.4   34+29=6.7  0+0=0% train set err=0, but val worse
+7c   82+154=3.1  27+83=8.2  29+39=7.2  0+0=0%  
+
+7d   87+152=3.1  31+81=8.3  30+38=7.2  0+0=0%  
+7e   91+152=3.2  30+80=8.2  33+32=6.9  0+0=0% 
+7f   87+152=3.1  31+81=8.3  30+38=7.2  0+0=0% ?  
 
 ------------------------------------------------------
 train v6
