@@ -24,6 +24,7 @@ int main(int argc, char const *argv[])
 	if (argc >1)
 		TRAIN_GROUP = argv[1];
 
+	string SVM_FILE = string("../xml/SVM_HOG") + TRAIN_GROUP + ".xml";
   //检测窗口(64,128),块尺寸(16,16),块步长(8,8),cell尺寸(8,8),直方图bin个数9
 	HOGDescriptor hog(Size(HOG_WIDTH, HOG_HEIGHT), Size(24, 24), Size(8, 8), Size(8, 8), 9);//HOG检测器，用来计算HOG描述子的
 	int DescriptorDim;//HOG描述子的维数，由图片大小、检测窗口大小、块大小、细胞单元中直方图bin个数决定
@@ -133,7 +134,7 @@ int main(int argc, char const *argv[])
 		CvTermCriteria criteria = cvTermCriteria(CV_TERMCRIT_ITER + CV_TERMCRIT_EPS, TermCriteriaCount, TermCriteriaEps);
 		//SVM参数：SVM类型为C_SVC；线性核函数；松弛因子C=0.01
 		CvSVMParams param(CvSVM::C_SVC, CvSVM::LINEAR, 0, 1, 0, 0.01, 0, 0, 0, criteria);
-		cout<<" 开始训练SVM分类器 "<<endl;
+		cout<<" 开始训练SVM分类器 "<< SVM_FILE << endl;
 
 #if AUTO_TRAIN
 		svm.train_auto(sampleFeatureMat, sampleLabelMat, Mat(), Mat(), param,
@@ -151,8 +152,14 @@ int main(int argc, char const *argv[])
 
 		cout << "train ms time = " << clock() - tBeg << endl;
 
-		cout<<" 训练完成 "<<endl;
-		svm.save(SVM_FILE);//将训练好的SVM模型保存为xml文件
+		cout<<" 训练完成 "<< endl;
+		svm.save(SVM_FILE.c_str());//将训练好的SVM模型保存为xml文件
+
+		CvSVMParams params_re = svm.get_params();
+		float C = params_re.C;
+		float P = params_re.p;
+		float gamma = params_re.gamma;
+		printf("\nParms: C = %f, P = %f,gamma = %f \n", C, P, gamma);
 
   return 0;
 }

@@ -12,7 +12,7 @@
 #define TermCriteriaCount 10000  //迭代终止条件，当迭代满50000次或误差小于FLT_EPSILON时停止迭代
 #define TermCriteriaEps		1e-3
 
-#define SVM_FILE	"../xml/SVM_HOG7b.xml"
+//#define SVM_FILE	"../xml/SVM_HOG7b.xml"
 #define	HOG_WIDTH	96
 #define HOG_HEIGHT	96
 

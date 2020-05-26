@@ -19,8 +19,6 @@ typedef std::vector<std::string> NameVec;
 int main(int argc, char const *argv[])
 {
 	CvSVM svm;//SVM分类器
-	svm.load(SVM_FILE);//从XML文件读取训练好的SVM模型
-	int DescriptorDim = svm.get_var_count();//特征向量的维数，即HOG描述子的维数
 
 	string ImgName;//图片名
 	NameVec fileLists[2];
@@ -32,6 +30,16 @@ int main(int argc, char const *argv[])
 	string TEST_GROUP("T2");
 	if (argc >2)
 		TEST_GROUP = argv[2];
+
+	string SVM_FILE = string("../xml/SVM_HOG") + TRAIN_GROUP + ".xml";
+	svm.load(SVM_FILE.c_str());//从XML文件读取训练好的SVM模型
+	int DescriptorDim = svm.get_var_count();//特征向量的维数，即HOG描述子的维数
+
+	CvSVMParams params_re = svm.get_params();
+	float C = params_re.C;
+	float P = params_re.p;
+	float gamma = params_re.gamma;
+	printf("\nParms: C = %f, P = %f,gamma = %f \n", C, P, gamma);
 
 	string fileListName[2];
 	fileListName[0] = string("../dataset/fileNameNeg") + TEST_GROUP + ".txt";
